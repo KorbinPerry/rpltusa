@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CATEGORIES, STORE_CATALOG_SIZE, type CategoryKey } from '#shared/catalog'
+import { STORE_CATALOG_SIZE } from '#shared/catalog'
 import { STORE, SUPPORT } from '#shared/site'
 
 const shop = useShop()
@@ -8,12 +8,6 @@ const { peptides, bySlug } = useCatalog()
 const featured = computed(() => peptides.value.filter(p => p.featured).sort((a, b) => a.demandRank - b.demandRank))
 const more = computed(() => peptides.value.filter(p => !p.featured).sort((a, b) => a.demandRank - b.demandRank))
 const heroPeptide = computed(() => bySlug('bpc-157')!)
-
-const categoryOrder: CategoryKey[] = ['metabolic', 'recovery', 'growth-hormone', 'longevity', 'skin']
-const researchAreas = computed(() => categoryOrder.map(key => ({
-  ...CATEGORIES[key],
-  peptides: peptides.value.filter(p => p.category === key),
-})))
 
 const heroStats = [
   { value: '99%+', label: 'Purity standard' },
@@ -29,7 +23,7 @@ const trust = [
 ]
 
 const steps = [
-  { icon: 'i-lucide-search', title: 'Pick your peptide', text: 'Compare the most researched compounds in the US, with research notes, vial sizes and live pricing on every page.' },
+  { icon: 'i-lucide-search', title: 'Pick your peptide', text: 'Compare the most researched compounds in the US, with vial sizes and live pricing right on this page.' },
   { icon: 'i-lucide-shopping-bag', title: `Check out at ${STORE.name}`, text: 'Tap Shop and you land on the exact product at our official store, where checkout is secure and fast.' },
   { icon: 'i-lucide-truck', title: 'Track it to your door', text: 'Orders are processed in 1 to 2 business days and typically arrive 2 to 5 business days after dispatch.' },
 ]
@@ -42,10 +36,12 @@ const quality = [
 ]
 
 const faqs = [
-  { label: 'What is RPLT USA?', content: `RPLT USA is a curated research peptide catalog for US researchers. We feature the most researched compounds, explain what each one is studied for, and connect you to ${STORE.name}, our official store, for secure checkout and fulfillment.` },
+  { label: 'What is RPLT USA?', content: `RPLT USA is a curated research peptide catalog for US researchers. We feature the most researched compounds and connect you to ${STORE.name}, our official store, for secure checkout and fulfillment.` },
   { label: 'Who processes and ships my order?', content: `Every order is placed, processed and shipped by ${STORE.name}. When you tap a Shop button you go straight to the matching product on the store.` },
   { label: 'How fast is shipping?', content: `Orders are processed within 1 to 2 business days after payment is confirmed. Standard US delivery typically takes 2 to 5 business days after dispatch, and tracking is emailed when your order ships. Orders over $${STORE.freeShippingThreshold} ship free.` },
   { label: 'Do the peptides come with a Certificate of Analysis?', content: 'Yes. Every peptide in the catalog is listed at 99% purity or higher and includes a Certificate of Analysis.' },
+  { label: 'How is Tirzepatide different from Semaglutide?', content: 'Semaglutide activates the GLP-1 receptor only. Tirzepatide activates both the GIP and GLP-1 receptors, which is why researchers often study the two side by side.' },
+  { label: 'How should the vials be stored?', content: 'Keep lyophilized vials cold, dry and away from light. Refrigeration is standard for short term storage and freezing for long term storage. Once reconstituted with bacteriostatic water, keep the vial refrigerated.' },
   { label: 'Are these products for human use?', content: 'No. All products are sold strictly for in vitro research and laboratory use. They are not drugs, foods or supplements and are not for human or veterinary consumption. You must be 18 or older to purchase.' },
   { label: 'What is the return policy?', content: 'Because research compounds cannot be verified once they leave the facility, sales are final. Damaged, defective or incorrect items reported within 7 days of delivery are replaced or refunded.' },
   { label: 'How do I contact support?', content: `Call ${SUPPORT.phone} or email ${SUPPORT.email}, ${SUPPORT.hours}. The store team answers all order and product questions.` },
@@ -61,15 +57,6 @@ usePageSeo({
 useSchemaOrg([
   defineWebPage({ '@type': ['WebPage', 'FAQPage'] }),
   ...faqs.map(f => defineQuestion({ name: f.label, acceptedAnswer: f.content })),
-  defineItemList({
-    name: 'Most researched peptides',
-    itemListElement: featured.value.map((p, i) => ({
-      '@type': 'ListItem',
-      'position': i + 1,
-      'name': p.name,
-      'url': `/peptides/${p.slug}`,
-    })),
-  }),
 ])
 </script>
 
@@ -263,56 +250,10 @@ useSchemaOrg([
       </UContainer>
     </section>
 
-    <!-- RESEARCH AREAS -->
-    <section class="bg-navy-50/70 py-16 sm:py-20">
-      <UContainer>
-        <SectionHeading
-          eyebrow="Research areas"
-          title="Find peptides by research focus"
-          description="Five areas cover the bulk of US peptide research demand."
-        />
-        <div class="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
-          <div
-            v-for="(area, i) in researchAreas"
-            :key="area.key"
-            class="rounded-2xl border border-navy-100 bg-white p-4 sm:p-5"
-            :class="i === researchAreas.length - 1 ? 'col-span-2 lg:col-span-1' : ''"
-          >
-            <span class="grid size-10 place-items-center rounded-xl bg-brand-600 text-white">
-              <UIcon
-                :name="area.icon"
-                class="size-5"
-              />
-            </span>
-            <h3 class="mt-4 font-bold text-navy-950">
-              {{ area.label }}
-            </h3>
-            <ul class="mt-3 space-y-1.5">
-              <li
-                v-for="p in area.peptides"
-                :key="p.slug"
-              >
-                <NuxtLink
-                  :to="`/peptides/${p.slug}`"
-                  class="group flex items-center justify-between gap-2 text-sm font-medium text-navy-600 hover:text-brand-600"
-                >
-                  {{ p.name }}
-                  <UIcon
-                    name="i-lucide-chevron-right"
-                    class="size-4 text-navy-300 group-hover:text-brand-600"
-                  />
-                </NuxtLink>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </UContainer>
-    </section>
-
     <!-- HOW IT WORKS -->
     <section
       id="how-it-works"
-      class="py-16 sm:py-20"
+      class="bg-navy-50/70 py-16 sm:py-20"
     >
       <UContainer>
         <SectionHeading
@@ -358,7 +299,7 @@ useSchemaOrg([
     <!-- QUALITY -->
     <section
       id="quality"
-      class="bg-navy-50/70 py-16 sm:py-20"
+      class="py-16 sm:py-20"
     >
       <UContainer class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <div class="grid grid-cols-2 gap-3 sm:gap-4">
@@ -424,7 +365,7 @@ useSchemaOrg([
     <!-- FAQ -->
     <section
       id="faq"
-      class="py-16 sm:py-20"
+      class="bg-navy-50/70 py-16 sm:py-20"
     >
       <UContainer class="max-w-3xl">
         <SectionHeading
@@ -435,9 +376,9 @@ useSchemaOrg([
           :items="faqs"
           type="multiple"
           :default-value="['0']"
-          class="mt-10"
+          class="mt-10 rounded-2xl border border-navy-100 bg-white px-5 sm:px-6"
           :ui="{
-            item: 'border-b border-navy-100',
+            item: 'border-b border-navy-100 last:border-b-0',
             trigger: 'py-5 text-base font-bold text-navy-950',
             body: 'pb-5 text-[0.95rem] leading-relaxed text-navy-600',
           }"
@@ -458,7 +399,7 @@ useSchemaOrg([
     </section>
 
     <!-- CTA BAND -->
-    <section class="pb-16 sm:pb-20">
+    <section class="py-16 sm:py-20">
       <UContainer>
         <div class="relative overflow-hidden rounded-[1.75rem] bg-gradient-to-br from-navy-950 via-brand-900 to-brand-600 px-6 py-12 text-center text-white sm:px-12 sm:py-16">
           <div

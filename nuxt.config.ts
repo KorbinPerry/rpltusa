@@ -86,7 +86,7 @@ export default defineNuxtConfig({
     compressPublicAssets: !process.env.VERCEL,
     prerender: {
       crawlLinks: true,
-      routes: ['/', '/peptides', '/sitemap.xml', '/robots.txt'],
+      routes: ['/', '/sitemap.xml', '/robots.txt'],
       // Image optimizer URLs are served by the platform (Vercel) or IPX, never prerendered.
       ignore: ['/_vercel', '/_ipx'],
       failOnError: true,
@@ -137,11 +137,13 @@ export default defineNuxtConfig({
     // Image entries point at the original files rather than optimizer URLs.
     discoverImages: false,
     urls: [
-      { loc: '/', images: [{ loc: '/images/hero-vials.webp', title: 'RPLT USA research peptides' }] },
-      ...PEPTIDES.map(p => ({
-        loc: `/peptides/${p.slug}`,
-        images: [{ loc: p.image, title: `${p.name} research peptide` }],
-      })),
+      {
+        loc: '/',
+        images: [
+          { loc: '/images/hero-vials.webp', title: 'RPLT USA research peptides' },
+          ...PEPTIDES.map(p => ({ loc: p.image, title: `${p.name} research peptide` })),
+        ],
+      },
     ],
   },
 

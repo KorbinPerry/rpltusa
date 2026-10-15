@@ -8,9 +8,6 @@ const open = ref(false)
 const panel = ref<HTMLElement | null>(null)
 const toggleButton = ref<HTMLButtonElement | null>(null)
 
-// Hash links all point at "/", so only the catalog link is ever marked active.
-const isActive = (to: string) => to === '/peptides' && route.path.startsWith('/peptides')
-
 function close(returnFocus = false) {
   if (!open.value)
     return
@@ -60,9 +57,7 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
           >
             <NuxtLink
               :to="link.to"
-              class="rounded-lg px-3 py-2 text-[0.94rem] font-semibold transition-colors hover:text-brand-600"
-              :class="isActive(link.to) ? 'text-brand-600' : 'text-navy-700'"
-              :aria-current="isActive(link.to) ? 'page' : undefined"
+              class="rounded-lg px-3 py-2 text-[0.94rem] font-semibold text-navy-700 transition-colors hover:text-brand-600"
             >
               {{ link.label }}
             </NuxtLink>
@@ -118,9 +113,7 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
             >
               <NuxtLink
                 :to="link.to"
-                class="flex items-center justify-between py-3.5 text-base font-semibold"
-                :class="isActive(link.to) ? 'text-brand-600' : 'text-navy-900'"
-                :aria-current="isActive(link.to) ? 'page' : undefined"
+                class="flex items-center justify-between py-3.5 text-base font-semibold text-navy-900"
                 @click="close()"
               >
                 {{ link.label }}

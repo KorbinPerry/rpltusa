@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { captureStoreNavigations, PAGES, SHOP_HOST } from './helpers'
+import { captureStoreNavigations, PEPTIDE_SLUGS, SHOP_HOST } from './helpers'
 
 const STORE_ID: Record<string, string> = { 'cjc-1295-ipamorelin': 'cjc-1295' }
 
@@ -13,37 +13,37 @@ function isStore(href: string) {
 }
 
 test('every store link carries the RPLT USA referral signature', async ({ page }) => {
-  for (const path of PAGES) {
-    await page.goto(path, { waitUntil: 'networkidle' })
-    const hrefs = await page.evaluate(() => Array.from(document.querySelectorAll('a[href]'), a => (a as HTMLAnchorElement).href))
-    const storeLinks = hrefs.filter(isStore)
-    expect(storeLinks.length, `store links on ${path}`).toBeGreaterThan(0)
+  await page.goto('/', { waitUntil: 'networkidle' })
+  const hrefs = await page.evaluate(() => Array.from(document.querySelectorAll('a[href]'), a => (a as HTMLAnchorElement).href))
+  const storeLinks = hrefs.filter(isStore)
+  expect(storeLinks.length).toBeGreaterThan(20)
 
-    for (const href of storeLinks) {
-      const url = new URL(href)
-      expect(url.protocol).toBe('https:')
-      expect(url.searchParams.get('utm_source'), href).toBe('rpltusa')
-      expect(url.searchParams.get('utm_medium'), href).toBe('referral')
-      expect(url.searchParams.get('utm_campaign'), href).toBe('rpltusa_site')
-      expect(url.searchParams.get('ref'), href).toBe('rpltusa')
-      expect(url.searchParams.get('utm_content'), href).toMatch(/^[a-z_]+$/)
-      if (url.pathname === '/product.html') {
-        const term = url.searchParams.get('utm_term')
-        expect(term, href).toBeTruthy()
-        expect(url.searchParams.get('id')).toBe(STORE_ID[term!] || term)
-      }
+  for (const href of storeLinks) {
+    const url = new URL(href)
+    expect(url.protocol).toBe('https:')
+    expect(url.searchParams.get('utm_source'), href).toBe('rpltusa')
+    expect(url.searchParams.get('utm_medium'), href).toBe('referral')
+    expect(url.searchParams.get('utm_campaign'), href).toBe('rpltusa_site')
+    expect(url.searchParams.get('ref'), href).toBe('rpltusa')
+    expect(url.searchParams.get('utm_content'), href).toMatch(/^[a-z_]+$/)
+    if (url.pathname === '/product.html') {
+      const term = url.searchParams.get('utm_term')
+      expect(term, href).toBeTruthy()
+      expect(url.searchParams.get('id')).toBe(STORE_ID[term!] || term)
     }
+  }
+})
 
-    // Product pages send the primary call to action to that exact product.
-    const slug = path.match(/^\/peptides\/(.+)$/)?.[1]
-    if (slug) {
-      const primary = page.getByRole('link', { name: /^Buy / }).first()
-      const url = new URL((await primary.getAttribute('href'))!)
-      expect(url.pathname).toBe('/product.html')
-      expect(url.searchParams.get('id')).toBe(STORE_ID[slug] || slug)
-      expect(url.searchParams.get('utm_content')).toBe('product_page_primary')
-      expect(url.searchParams.get('utm_term')).toBe(slug)
-    }
+test('every peptide card links to its exact store product', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'networkidle' })
+  for (const slug of PEPTIDE_SLUGS) {
+    const card = page.locator('#best-sellers article').filter({ has: page.locator(`a[href*="utm_term=${slug}&"], a[href$="utm_term=${slug}"]`) })
+    await expect(card, slug).toHaveCount(1)
+    const href = await card.getByRole('link', { name: /^(Shop now|Check stock)/ }).getAttribute('href')
+    const url = new URL(href!)
+    expect(url.pathname).toBe('/product.html')
+    expect(url.searchParams.get('id')).toBe(STORE_ID[slug] || slug)
+    expect(['product_card', 'product_more']).toContain(url.searchParams.get('utm_content'))
   }
 })
 
@@ -84,19 +84,34 @@ test('click adds visitor id, page, campaign pass through and ad click ids', asyn
   expect(url.searchParams.get('fbclid')).toBe('FB-1')
 })
 
-test('attribution persists across pages and visits with a stable visitor id', async ({ page }) => {
+test('product card click reaches the product with the full signature', async ({ page }) => {
   const navigations = await captureStoreNavigations(page)
-  await page.goto('/peptides/tirzepatide?utm_source=newsletter&utm_campaign=oct&msclkid=MS-9', { waitUntil: 'networkidle' })
+  await page.goto('/?utm_source=meta&utm_campaign=bpc_test&fbclid=FB-77', { waitUntil: 'networkidle' })
+  await page.getByRole('link', { name: 'Shop now for BPC-157' }).click()
+  await expect.poll(() => navigations.length).toBeGreaterThan(0)
 
-  // A later, direct visit to another page keeps the campaign.
-  await page.goto('/peptides/bpc-157', { waitUntil: 'networkidle' })
-  await page.getByRole('link', { name: /^Buy BPC-157/ }).first().click()
+  const url = new URL(navigations.at(-1)!)
+  expect(url.pathname).toBe('/product.html')
+  expect(url.searchParams.get('id')).toBe('bpc-157')
+  expect(url.searchParams.get('utm_source')).toBe('rpltusa')
+  expect(url.searchParams.get('utm_content')).toBe('product_card')
+  expect(url.searchParams.get('utm_term')).toBe('bpc-157')
+  expect(url.searchParams.get('rplt_src')).toBe('meta')
+  expect(url.searchParams.get('rplt_cmp')).toBe('bpc_test')
+  expect(url.searchParams.get('fbclid')).toBe('FB-77')
+  expect(url.searchParams.get('rplt_vid')).toMatch(/^v[0-9a-f]{16}$/)
+})
+
+test('attribution persists across visits with a stable visitor id', async ({ page }) => {
+  const navigations = await captureStoreNavigations(page)
+  await page.goto('/?utm_source=newsletter&utm_campaign=oct&msclkid=MS-9', { waitUntil: 'networkidle' })
+
+  // A later, direct visit keeps the campaign.
+  await page.goto('/', { waitUntil: 'networkidle' })
+  await page.getByRole('link', { name: 'Shop now for Tirzepatide' }).click()
   await expect.poll(() => navigations.length).toBeGreaterThan(0)
   const first = new URL(navigations.at(-1)!)
-  expect(first.pathname).toBe('/product.html')
-  expect(first.searchParams.get('id')).toBe('bpc-157')
-  expect(first.searchParams.get('rplt_page')).toBe('/peptides/bpc-157')
-  expect(first.searchParams.get('rplt_lp')).toBe('/peptides/tirzepatide')
+  expect(first.searchParams.get('id')).toBe('tirzepatide')
   expect(first.searchParams.get('rplt_src')).toBe('newsletter')
   expect(first.searchParams.get('rplt_cmp')).toBe('oct')
   expect(first.searchParams.get('msclkid')).toBe('MS-9')

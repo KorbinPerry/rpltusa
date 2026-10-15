@@ -28,15 +28,15 @@ useSeoMeta({
           {{ is404 ? 'This page does not exist' : 'Something went wrong' }}
         </h1>
         <p class="mt-4 text-base text-muted sm:text-lg">
-          {{ is404 ? 'The link may be outdated. Our full research peptide catalog is one tap away.' : 'Please try again in a moment.' }}
+          {{ is404 ? 'The link may be outdated. Everything RPLT USA offers is on the home page.' : 'Please try again in a moment.' }}
         </p>
         <div class="mt-8 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
           <UButton
             size="xl"
             class="justify-center rounded-xl px-7"
-            @click="clearError({ redirect: '/peptides' })"
+            @click="clearError({ redirect: '/' })"
           >
-            Browse peptides
+            Back to home
           </UButton>
           <UButton
             :to="shop.catalog({ placement: 'not_found' })"

@@ -71,10 +71,6 @@ export type Placement
     | 'cta_band'
     | 'sticky_mobile'
     | 'footer'
-    | 'product_page_primary'
-    | 'product_page_secondary'
-    | 'product_page_related'
-    | 'peptides_index'
     | 'not_found'
 
 export interface ShopLinkOptions {

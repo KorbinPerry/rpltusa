@@ -1,26 +1,19 @@
 # RPLT USA
 
-> RPLT USA is a curated catalog of lab tested research peptides for US researchers. Every listed peptide is 99% purity or higher and ships with a Certificate of Analysis. Orders are placed, processed and shipped by ProLongevity Peptides (https://prolongevitypeptide.com), the official store for the RPLT USA catalog. Free US shipping on orders over $150. All products are for laboratory research use only and are not for human consumption.
+> RPLT USA (https://rpltusa.com) is a one page guide to lab tested research peptides for US researchers. Every listed peptide is 99% purity or higher and ships with a Certificate of Analysis. Orders are placed, processed and shipped by ProLongevity Peptides (https://prolongevitypeptide.com), the official store. Free US shipping on orders over $150. All products are for laboratory research use only and are not for human consumption.
 
-## Catalog
+## Featured peptides
 
-- [Research peptides catalog](https://rpltusa.com/peptides): All eleven peptides with live pricing and vial sizes.
-- [Tirzepatide](https://rpltusa.com/peptides/tirzepatide): Dual GIP and GLP-1 receptor agonist for metabolic research.
-- [Semaglutide](https://rpltusa.com/peptides/semaglutide): Long acting GLP-1 receptor agonist for metabolic research.
-- [BPC-157](https://rpltusa.com/peptides/bpc-157): Body Protection Compound 157, studied in tissue repair research.
-- [GHK-Cu](https://rpltusa.com/peptides/ghk-cu): Copper tripeptide for collagen and skin research.
-- [Tesamorelin](https://rpltusa.com/peptides/tesamorelin): GHRH analog for body composition research.
-- [TB-500](https://rpltusa.com/peptides/tb-500): Thymosin Beta-4 fragment for repair research.
-- [CJC-1295 with DAC / Ipamorelin](https://rpltusa.com/peptides/cjc-1295-ipamorelin): GHRH analog paired with a selective GH secretagogue.
-- [MOTS-c](https://rpltusa.com/peptides/mots-c): Mitochondrial derived peptide for metabolic and aging research.
-- [AOD-9604](https://rpltusa.com/peptides/aod-9604): HGH fragment 177 to 191 for fat metabolism research.
-- [Ipamorelin](https://rpltusa.com/peptides/ipamorelin): Selective growth hormone secretagogue.
-- [Epithalon](https://rpltusa.com/peptides/epithalon): Tetrapeptide studied in longevity research.
+Tirzepatide, Semaglutide, BPC-157, GHK-Cu, Tesamorelin, TB-500, CJC-1295 with DAC / Ipamorelin, MOTS-c, AOD-9604, Ipamorelin and Epithalon. Live prices and vial sizes are on https://rpltusa.com/#best-sellers and the full 22 peptide catalog is at https://prolongevitypeptide.com/products.html.
 
-## Policies
+## Sections
 
-- [Terms of use and research disclaimer](https://rpltusa.com/terms)
-- [Privacy policy](https://rpltusa.com/privacy)
+- [Best sellers](https://rpltusa.com/#best-sellers)
+- [How it works](https://rpltusa.com/#how-it-works)
+- [Quality standards](https://rpltusa.com/#quality)
+- [FAQ](https://rpltusa.com/#faq)
+- [Terms and research disclaimer](https://rpltusa.com/#terms)
+- [Privacy](https://rpltusa.com/#privacy)
 
 ## Support
 

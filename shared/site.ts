@@ -12,7 +12,6 @@ export const SUPPORT = {
 } as const
 
 export const NAV_LINKS = [
-  { label: 'Peptides', to: '/peptides' },
   { label: 'Best Sellers', to: '/#best-sellers' },
   { label: 'How It Works', to: '/#how-it-works' },
   { label: 'Quality', to: '/#quality' },

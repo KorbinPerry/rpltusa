@@ -1,25 +1,21 @@
 # RPLT USA
 
-Landing and referral site for **rpltusa.com**. It presents a curated research peptide catalog and sends every visitor to the official store, [ProLongevity Peptides](https://prolongevitypeptide.com), with a consistent referral signature so the store can attribute the traffic. RPLT USA has no login, cart or payments.
+Single page landing and referral site for **rpltusa.com**. It presents the most researched peptides and sends every visitor to the official store, [ProLongevity Peptides](https://prolongevitypeptide.com), with a consistent referral signature so the store can attribute the traffic. RPLT USA has no login, cart or payments.
 
 ## Stack
 
 - Nuxt 4, Nuxt UI 4 (Tailwind CSS 4), Nuxt Image
 - Nuxt SEO: site config, sitemap, robots, schema.org, SEO utils
-- Static prerendered pages plus one cached serverless route for live pricing
+- One prerendered page plus one cached serverless route for live pricing
 - Self hosted Plus Jakarta Sans font, Lucide icons bundled locally
 
-## Pages
+## What is on the page
 
-| Route | Purpose |
-| --- | --- |
-| `/` | Landing page: hero, best sellers, research areas, how it works, quality, FAQ |
-| `/peptides` | Catalog of the 11 featured peptides |
-| `/peptides/[slug]` | One page per peptide, targeting "buy {peptide}" and "{peptide} for sale" searches |
-| `/terms`, `/privacy` | Terms, research use disclaimer and privacy policy |
-| `/api/catalog` | Live price, size and stock from the store API, cached for 30 minutes |
+One route, `/`, with these sections: hero, trust strip, best sellers (8 peptides), more from the catalog (3 peptides plus a link to the full 22 product store catalog), how it works, quality standards, FAQ, call to action, and a footer with order support, the research use disclaimer, and collapsible terms (`/#terms`) and privacy (`/#privacy`) panels. Every product card, image and button goes straight to the matching product on the store. Any other path returns a branded 404.
 
-The lineup is the overlap between the store catalog and the highest demand peptides in the Q2 2026 US search market brief: Tirzepatide, Semaglutide, BPC-157, GHK-Cu, Tesamorelin, TB-500, CJC-1295 with DAC / Ipamorelin, MOTS-c, AOD-9604, Ipamorelin and Epithalon. Titles and descriptions target low difficulty, purchase intent keywords checked in Semrush (for example "bpc 157 for sale", "buy tesamorelin", "buy cjc 1295 ipamorelin").
+`/api/catalog` returns live price, size and stock from the store API, cached for 30 minutes.
+
+The lineup is the overlap between the store catalog and the highest demand peptides in the Q2 2026 US search market brief: Tirzepatide, Semaglutide, BPC-157, GHK-Cu, Tesamorelin, TB-500, CJC-1295 with DAC / Ipamorelin, MOTS-c, AOD-9604, Ipamorelin and Epithalon. The title and description target "research peptides for sale" and "research peptides usa", checked in Semrush.
 
 ## Referral signature
 
@@ -61,7 +57,7 @@ When a click happens, a `Shop Click` event is sent to Vercel Web Analytics (when
 
 `shared/catalog.ts` holds the copy, images and a snapshot of price, size and stock. `/api/catalog` reads `https://prolongevitypeptide.com/api/products`, merges it with the snapshot and falls back to the snapshot if the store cannot be reached. Prices are resolved at build time and refreshed once in the browser after each page load, so a price change on the store shows up within the hour without a redeploy. If a product is removed from the store, its buttons point at the full store catalog instead.
 
-To add a peptide: add an entry to `PEPTIDES` in `shared/catalog.ts` (its `storeId` must match the store product id), add a 400x400 WebP to `public/images/peptides/`, add a 1200x630 JPG social card to `public/og/`, and add the slug to `tests/e2e/helpers.ts`.
+To add a peptide: add an entry to `PEPTIDES` in `shared/catalog.ts` (its `storeId` must match the store product id), add a 400x400 WebP named after its slug to `public/images/peptides/`, and add the slug to `tests/e2e/helpers.ts`.
 
 ## Deploy to Vercel
 
@@ -73,7 +69,7 @@ To add a peptide: add an entry to `PEPTIDES` in `shared/catalog.ts` (its `storeI
    - `NUXT_PUBLIC_SHOP_URL` (default `https://prolongevitypeptide.com`)
    - `NUXT_PUBLIC_VERCEL_ANALYTICS=true` after enabling Web Analytics in the Vercel project
 
-Vercel serves the prerendered pages from the edge, optimizes images through `/_vercel/image` (WebP and AVIF), and runs `/api/catalog` as an ISR function.
+Vercel serves the prerendered page from the edge, optimizes images through `/_vercel/image` (WebP and AVIF), and runs `/api/catalog` as an ISR function.
 
 ## Development
 
@@ -91,4 +87,4 @@ Run `npx playwright install chromium` once before the first e2e run, or set `PW_
 
 ## Compliance
 
-All copy frames products as research use only. The footer, product pages and terms carry the research use disclaimer, and descriptions summarize published research without medical claims. Support details (phone, email, hours) are the store's, since the store fulfills every order.
+All copy frames products as research use only. The page carries the research use disclaimer in the footer and above it, and descriptions make no medical claims. Support details (phone, email, hours) are the store's, since the store fulfills every order.

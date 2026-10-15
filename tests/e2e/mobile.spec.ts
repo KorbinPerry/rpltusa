@@ -36,9 +36,9 @@ test.describe('mobile', () => {
     await expect(page.locator('#faq')).toBeInViewport()
   })
 
-  test('sticky shop bar appears after scrolling and links to the product', async ({ page }) => {
+  test('sticky shop bar appears after scrolling and is decorated', async ({ page }) => {
     const navigations = await captureStoreNavigations(page)
-    await page.goto('/peptides/ghk-cu', { waitUntil: 'networkidle' })
+    await page.goto('/', { waitUntil: 'networkidle' })
     const bar = page.getByTestId('sticky-shop-bar')
     await expect(bar).toHaveAttribute('aria-hidden', 'true')
 
@@ -47,9 +47,9 @@ test.describe('mobile', () => {
     await bar.getByRole('link').click()
     await expect.poll(() => navigations.length).toBeGreaterThan(0)
     const url = new URL(navigations.at(-1)!)
-    expect(url.pathname).toBe('/product.html')
-    expect(url.searchParams.get('id')).toBe('ghk-cu')
+    expect(url.pathname).toBe('/products.html')
     expect(url.searchParams.get('utm_content')).toBe('sticky_mobile')
+    expect(url.searchParams.get('rplt_vid')).toMatch(/^v[0-9a-f]{16}$/)
   })
 
   test('tap targets are at least 40px tall', async ({ page }) => {

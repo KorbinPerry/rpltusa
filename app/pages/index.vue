@@ -10,9 +10,9 @@ const more = computed(() => peptides.value.filter(p => !p.featured).sort((a, b) 
 const heroPeptide = computed(() => bySlug('bpc-157')!)
 
 const heroStats = [
-  { value: '99%+', label: 'Purity standard' },
-  { value: 'COA', label: 'With every vial' },
-  { value: '50 states', label: 'Tracked shipping' },
+  { value: '99%+', label: 'Purity' },
+  { value: 'COA', label: 'Every vial' },
+  { value: '50', label: 'US states' },
 ]
 
 const trust = [
@@ -74,15 +74,15 @@ useSchemaOrg([
             <span class="size-2 rounded-full bg-flag-500" />
             Research Peptides. Lab Tested. USA.
           </p>
-          <h1 class="mt-5 text-[2.35rem] font-extrabold leading-[1.06] tracking-tight text-navy-950 sm:text-5xl lg:text-[3.6rem]">
+          <h1 class="mt-5 text-[2.1rem] font-extrabold leading-[1.06] tracking-tight text-navy-950 min-[375px]:text-[2.35rem] sm:text-5xl lg:text-[3.6rem]">
             Lab Tested Research Peptides, <span class="text-brand-600">Delivered Across the USA.</span>
           </h1>
           <p class="mt-5 max-w-xl text-base leading-relaxed text-navy-600 sm:text-lg">
             A curated lineup of the most researched peptides in the country, including
-            <strong class="font-semibold text-navy-900">BPC-157</strong>,
-            <strong class="font-semibold text-navy-900">Tirzepatide</strong>,
-            <strong class="font-semibold text-navy-900">Semaglutide</strong> and
-            <strong class="font-semibold text-navy-900">GHK-Cu</strong>.
+            <strong class="whitespace-nowrap font-semibold text-navy-900">BPC-157</strong>,
+            <strong class="whitespace-nowrap font-semibold text-navy-900">Tirzepatide</strong>,
+            <strong class="whitespace-nowrap font-semibold text-navy-900">Semaglutide</strong> and
+            <strong class="whitespace-nowrap font-semibold text-navy-900">GHK-Cu</strong>.
             Every vial is 99% pure or higher and comes with a Certificate of Analysis.
           </p>
           <div class="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -105,16 +105,17 @@ useSchemaOrg([
               See best sellers
             </UButton>
           </div>
-          <dl class="mt-9 grid grid-cols-3 gap-2.5 sm:gap-4">
+          <dl class="mt-8 grid grid-cols-3 gap-2 sm:mt-9 sm:gap-4">
             <div
               v-for="stat in heroStats"
               :key="stat.label"
-              class="flex flex-col-reverse rounded-2xl border border-navy-100 bg-white p-3 shadow-sm sm:p-4"
+              class="flex flex-col-reverse justify-end rounded-2xl border border-navy-100 bg-white px-3 py-3.5 shadow-sm sm:p-4"
+              data-testid="hero-stat"
             >
-              <dt class="mt-0.5 text-[0.7rem] font-medium leading-tight text-muted sm:text-sm">
+              <dt class="mt-1.5 whitespace-nowrap text-xs font-medium leading-none text-muted sm:text-sm">
                 {{ stat.label }}
               </dt>
-              <dd class="text-xl font-extrabold text-navy-950 sm:text-[1.7rem]">
+              <dd class="whitespace-nowrap text-[1.35rem] font-extrabold leading-none text-navy-950 sm:text-[1.7rem]">
                 {{ stat.value }}
               </dd>
             </div>
@@ -124,7 +125,7 @@ useSchemaOrg([
         <div class="relative">
           <div class="relative rounded-3xl border border-navy-100 bg-white p-3 shadow-[0_30px_70px_-30px_rgb(19_30_82/0.45)] sm:p-4">
             <span class="absolute -top-3 right-5 z-10 rounded-xl border border-navy-100 bg-white px-3.5 py-1.5 text-xs font-bold text-navy-900 shadow-md">
-              Featured: <span class="text-brand-600">{{ heroPeptide.name }}</span>
+              Featured: <span class="whitespace-nowrap text-brand-600">{{ heroPeptide.name }}</span>
             </span>
             <NuxtImg
               src="/images/hero-vials.webp"
@@ -167,23 +168,23 @@ useSchemaOrg([
       aria-label="Why researchers order through RPLT USA"
       class="border-y border-navy-100 bg-white"
     >
-      <UContainer class="grid grid-cols-2 gap-x-4 gap-y-6 py-7 lg:grid-cols-4">
+      <UContainer class="grid grid-cols-2 gap-x-3 gap-y-5 py-6 sm:gap-x-4 sm:gap-y-6 sm:py-7 lg:grid-cols-4">
         <div
           v-for="item in trust"
           :key="item.title"
-          class="flex items-start gap-3"
+          class="flex items-center gap-2.5 sm:items-start sm:gap-3"
         >
-          <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-brand-50 text-brand-600">
+          <span class="grid size-9 shrink-0 place-items-center rounded-xl bg-brand-50 text-brand-600 sm:size-10">
             <UIcon
               :name="item.icon"
               class="size-5"
             />
           </span>
           <div>
-            <p class="text-sm font-bold text-navy-950">
+            <p class="text-[0.8rem] font-bold leading-snug text-navy-950 sm:text-sm">
               {{ item.title }}
             </p>
-            <p class="mt-0.5 text-xs leading-snug text-muted sm:text-sm">
+            <p class="mt-0.5 hidden text-sm leading-snug text-muted sm:block">
               {{ item.text }}
             </p>
           </div>
@@ -230,7 +231,7 @@ useSchemaOrg([
                 Browse all {{ STORE_CATALOG_SIZE }} peptides
               </p>
               <p class="mt-2 text-xs leading-relaxed text-brand-100 sm:text-sm">
-                Including NAD+, KPV, SS-31, PT-141, Kisspeptin and bacteriostatic water.
+                Including NAD+, KPV, <span class="whitespace-nowrap">SS-31</span>, <span class="whitespace-nowrap">PT-141</span>, Kisspeptin and bacteriostatic water.
               </p>
               <UButton
                 :to="shop.catalog({ placement: 'catalog_all' })"
@@ -242,7 +243,7 @@ useSchemaOrg([
                 trailing-icon="i-lucide-arrow-up-right"
                 class="mt-5 min-h-11 justify-center rounded-xl bg-white text-brand-700 hover:bg-brand-50 sm:mt-6"
               >
-                View catalog
+                View all
               </UButton>
             </div>
           </div>

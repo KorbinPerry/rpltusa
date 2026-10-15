@@ -43,7 +43,7 @@ export const CATEGORIES: Record<CategoryKey, Category> = {
   'recovery': { key: 'recovery', label: 'Recovery', icon: 'i-lucide-activity' },
   'growth-hormone': { key: 'growth-hormone', label: 'Growth Hormone', icon: 'i-lucide-trending-up' },
   'longevity': { key: 'longevity', label: 'Longevity', icon: 'i-lucide-hourglass' },
-  'skin': { key: 'skin', label: 'Skin and Anti-Aging', icon: 'i-lucide-sparkles' },
+  'skin': { key: 'skin', label: 'Anti-Aging', icon: 'i-lucide-sparkles' },
 }
 
 const peptide = (p: Omit<Peptide, 'backordered' | 'listed' | 'image' | 'imageAlt'> & { imageAlt?: string }): Peptide => ({
@@ -55,17 +55,17 @@ const peptide = (p: Omit<Peptide, 'backordered' | 'listed' | 'image' | 'imageAlt
 })
 
 export const PEPTIDES: Peptide[] = [
-  peptide({ slug: 'tirzepatide', storeId: 'tirzepatide', name: 'Tirzepatide', category: 'metabolic', demandRank: 1, featured: true, tagline: 'Dual GIP and GLP-1 receptor agonist', price: 215, size: '5mg' }),
-  peptide({ slug: 'semaglutide', storeId: 'semaglutide', name: 'Semaglutide', category: 'metabolic', demandRank: 2, featured: true, tagline: 'Long acting GLP-1 receptor agonist', price: 195, size: '5mg' }),
+  peptide({ slug: 'tirzepatide', storeId: 'tirzepatide', name: 'Tirzepatide', category: 'metabolic', demandRank: 1, featured: true, tagline: 'Dual GIP and GLP-1 agonist', price: 215, size: '5mg' }),
+  peptide({ slug: 'semaglutide', storeId: 'semaglutide', name: 'Semaglutide', category: 'metabolic', demandRank: 2, featured: true, tagline: 'Long acting GLP-1 agonist', price: 195, size: '5mg' }),
   peptide({ slug: 'bpc-157', storeId: 'bpc-157', name: 'BPC-157', category: 'recovery', demandRank: 3, featured: true, tagline: 'The most studied recovery peptide', price: 90, size: '10mg' }),
-  peptide({ slug: 'ghk-cu', storeId: 'ghk-cu', name: 'GHK-Cu', category: 'skin', demandRank: 4, featured: true, tagline: 'Copper peptide for skin and collagen research', price: 90, size: '100mg', imageAlt: 'GHK-Cu copper peptide research vial' }),
-  peptide({ slug: 'tesamorelin', storeId: 'tesamorelin', name: 'Tesamorelin', category: 'growth-hormone', demandRank: 5, featured: true, tagline: 'GHRH analog for body composition research', price: 95, size: '2mg' }),
-  peptide({ slug: 'tb-500', storeId: 'tb-500', name: 'TB-500', category: 'recovery', demandRank: 6, featured: true, tagline: 'Thymosin Beta-4 fragment for repair research', price: 90, size: '10mg' }),
-  peptide({ slug: 'cjc-1295-ipamorelin', storeId: 'cjc-1295', name: 'CJC-1295 / Ipamorelin', category: 'growth-hormone', demandRank: 7, featured: true, tagline: 'GHRH analog paired with a GH secretagogue', price: 130, size: '10mg', imageAlt: 'CJC-1295 with DAC and Ipamorelin research peptide vial' }),
-  peptide({ slug: 'mots-c', storeId: 'mots-c', name: 'MOTS-c', category: 'longevity', demandRank: 8, featured: true, tagline: 'Mitochondrial derived metabolic peptide', price: 140, size: '40mg' }),
-  peptide({ slug: 'aod-9604', storeId: 'aod-9604', name: 'AOD-9604', category: 'metabolic', demandRank: 9, featured: false, tagline: 'HGH fragment for fat metabolism research', price: 130, size: '10mg' }),
-  peptide({ slug: 'ipamorelin', storeId: 'ipamorelin', name: 'Ipamorelin', category: 'growth-hormone', demandRank: 10, featured: false, tagline: 'Selective growth hormone secretagogue', price: 70, size: '10mg' }),
-  peptide({ slug: 'epithalon', storeId: 'epithalon', name: 'Epithalon', category: 'longevity', demandRank: 11, featured: false, tagline: 'Tetrapeptide studied in longevity research', price: 70, size: '10mg' }),
+  peptide({ slug: 'ghk-cu', storeId: 'ghk-cu', name: 'GHK-Cu', category: 'skin', demandRank: 4, featured: true, tagline: 'Copper peptide for skin research', price: 90, size: '100mg', imageAlt: 'GHK-Cu copper peptide research vial' }),
+  peptide({ slug: 'tesamorelin', storeId: 'tesamorelin', name: 'Tesamorelin', category: 'growth-hormone', demandRank: 5, featured: true, tagline: 'GHRH analog for body composition', price: 95, size: '2mg' }),
+  peptide({ slug: 'tb-500', storeId: 'tb-500', name: 'TB-500', category: 'recovery', demandRank: 6, featured: true, tagline: 'Thymosin Beta-4 fragment', price: 90, size: '10mg' }),
+  peptide({ slug: 'cjc-1295-ipamorelin', storeId: 'cjc-1295', name: 'CJC-1295 / Ipamorelin', category: 'growth-hormone', demandRank: 7, featured: true, tagline: 'GHRH analog plus GH secretagogue', price: 130, size: '10mg', imageAlt: 'CJC-1295 with DAC and Ipamorelin research peptide vial' }),
+  peptide({ slug: 'mots-c', storeId: 'mots-c', name: 'MOTS-c', category: 'longevity', demandRank: 8, featured: true, tagline: 'Mitochondrial metabolic peptide', price: 140, size: '40mg' }),
+  peptide({ slug: 'aod-9604', storeId: 'aod-9604', name: 'AOD-9604', category: 'metabolic', demandRank: 9, featured: false, tagline: 'HGH fragment for fat metabolism', price: 130, size: '10mg' }),
+  peptide({ slug: 'ipamorelin', storeId: 'ipamorelin', name: 'Ipamorelin', category: 'growth-hormone', demandRank: 10, featured: false, tagline: 'Selective GH secretagogue', price: 70, size: '10mg' }),
+  peptide({ slug: 'epithalon', storeId: 'epithalon', name: 'Epithalon', category: 'longevity', demandRank: 11, featured: false, tagline: 'Longevity research tetrapeptide', price: 70, size: '10mg' }),
 ]
 
 export const STORE_CATALOG_SIZE = 22

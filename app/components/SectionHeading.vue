@@ -26,7 +26,7 @@ withDefaults(defineProps<{
     </p>
     <component
       :is="as"
-      class="mt-2.5 text-[1.8rem] font-extrabold leading-tight tracking-tight text-navy-950 sm:text-4xl"
+      class="mt-2.5 text-[1.65rem] font-extrabold leading-tight tracking-tight text-navy-950 min-[375px]:text-[1.8rem] sm:text-4xl"
     >
       {{ title }}
     </component>

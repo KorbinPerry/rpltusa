@@ -35,10 +35,10 @@ const shopHref = computed(() => shop.product(props.peptide, { placement: props.p
           class="size-full object-cover transition duration-300 group-hover:scale-[1.04]"
         />
       </a>
-      <span class="pointer-events-none absolute left-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[0.68rem] font-bold uppercase tracking-wide text-brand-700 shadow-sm sm:left-3 sm:top-3">
+      <span class="pointer-events-none absolute left-2 top-2 inline-flex max-w-[calc(100%-1rem)] items-center gap-1 whitespace-nowrap rounded-full bg-white/95 px-2 py-1 text-[0.62rem] font-bold uppercase tracking-wide text-brand-700 shadow-sm sm:left-3 sm:top-3 sm:px-2.5 sm:text-[0.68rem]">
         <UIcon
           :name="category.icon"
-          class="size-3"
+          class="hidden size-3 shrink-0 min-[375px]:block"
         />
         {{ category.label }}
       </span>
@@ -50,22 +50,28 @@ const shopHref = computed(() => shop.product(props.peptide, { placement: props.p
       </span>
     </div>
 
-    <div class="flex flex-1 flex-col gap-3 p-3.5 sm:p-5">
+    <div class="flex flex-1 flex-col gap-3 p-3 sm:p-5">
       <div>
         <h3 class="text-base font-bold leading-snug text-navy-950 sm:text-lg">
-          {{ peptide.name }}
+          <!-- Break only at spaces, never inside names like CJC-1295 -->
+          <template
+            v-for="(word, i) in peptide.name.split(' ')"
+            :key="i"
+          >
+            <span class="whitespace-nowrap">{{ word }}</span>{{ ' ' }}
+          </template>
         </h3>
-        <p class="mt-1 line-clamp-2 text-xs text-muted sm:text-sm">
+        <p class="mt-1 min-h-[2lh] text-xs leading-snug text-muted sm:text-sm">
           {{ peptide.tagline }}
         </p>
       </div>
 
       <div class="mt-auto flex items-baseline justify-between gap-2">
-        <p class="text-xl font-extrabold text-brand-600 sm:text-2xl">
+        <p class="whitespace-nowrap text-xl font-extrabold text-brand-600 sm:text-2xl">
           ${{ Math.round(peptide.price) }}
-          <span class="text-xs font-semibold text-navy-500">USD</span>
+          <span class="hidden text-xs font-semibold text-navy-500 sm:inline">USD</span>
         </p>
-        <p class="rounded-md bg-navy-50 px-2 py-0.5 text-xs font-semibold text-navy-600">
+        <p class="whitespace-nowrap rounded-md bg-navy-50 px-2 py-0.5 text-xs font-semibold text-navy-600">
           {{ peptide.size }}
         </p>
       </div>
@@ -77,6 +83,7 @@ const shopHref = computed(() => shop.product(props.peptide, { placement: props.p
         size="lg"
         trailing-icon="i-lucide-arrow-up-right"
         class="min-h-11 rounded-xl"
+        :ui="{ trailingIcon: 'hidden min-[360px]:inline-flex' }"
       >
         {{ peptide.backordered ? 'Check stock' : 'Shop now' }}<span class="sr-only"> for {{ peptide.name }}</span>
       </UButton>
